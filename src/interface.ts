@@ -1,4 +1,4 @@
-export interface Task {
+export interface ITask {
     taskName: string;
     deadline: number;
 }

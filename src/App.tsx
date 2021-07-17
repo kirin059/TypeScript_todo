@@ -1,13 +1,15 @@
 import React, { ChangeEvent, FC } from 'react';
 import { useState } from 'react';
+import { ITask } from './interface';
 import './App.css';
+import { ConsoleWriter } from 'istanbul-lib-report';
 
 // React.FC 를 사용 할 때는 props 의 타입을 Generics 로 넣어서 사용할 수 있다
 const App: React.FC = () => {
 
   const [task, setTask] = useState<string>("");
   const [deadline, setDeadline] = useState<number>(0);
-  const [todo, setTodo] = useState([]);
+  const [todo, setTodo] = useState<ITask[]>([]);
 
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
@@ -18,16 +20,30 @@ const App: React.FC = () => {
       setDeadline(Number(event.target.value));
     }
   } 
-
+ 
   const addTask = (): void => {
-    setTask([...todo, task])
+    const newTask = { taskName: task, deadline: deadline }
+    setTodo([...todo, newTask])
+    setTask("");
+    setDeadline(0);
+    console.log(todo)
   }
+
   return (
     <div className="App">
       <div className="header">
         <div className="inputContainer">
-          <input type="text" name="task" placeholder="Task you have to do ..." onChange={ handleChange } />
-          <input type="number"  name="deadline" placeholder="Deadline (in Days) ..." />
+          <input
+            type="text"
+            name="task"
+            value={task}
+            placeholder="Task you have to do ..."
+            onChange={handleChange} />
+          <input
+            type="number"
+            name="deadline"
+            value={deadline}
+            placeholder="Deadline (in Days) ..." />
         </div>
         <button onClick={ addTask }>Add Task</button>
       </div>
