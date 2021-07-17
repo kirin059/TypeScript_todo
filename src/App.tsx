@@ -1,6 +1,7 @@
 import React, { ChangeEvent, FC } from 'react';
 import { useState } from 'react';
 import { ITask } from './interface';
+import TodoTask from './Component/TodoTask';
 import './App.css';
 import { ConsoleWriter } from 'istanbul-lib-report';
 
@@ -43,11 +44,16 @@ const App: React.FC = () => {
             type="number"
             name="deadline"
             value={deadline}
-            placeholder="Deadline (in Days) ..." />
+            placeholder="Deadline (in Days) ..."
+            onChange={handleChange}/>
         </div>
         <button onClick={ addTask }>Add Task</button>
       </div>
-      <div className="todoList"></div>
+      <div className="todoList">
+        {todo.map((task: ITask, key: number) => {
+          return <TodoTask key={key} task={task} />
+        })}
+      </div>
     </div>
   );
 }
